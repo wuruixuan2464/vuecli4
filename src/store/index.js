@@ -15,6 +15,10 @@ export default createStore({
    },
    addoldcart(state,shopinfo){
      shopinfo.cont++;
+   },
+   delshop(e,index){
+      console.log(e,index);
+      e.carlist.splice(index,1);
    }
   },
   actions: {

@@ -4,7 +4,7 @@
     <!-- 头 -->
     <nav-bar>
       <template v-slot:center>
-        <div>美轮美奂</div>
+        <div>splendid mall</div>
       </template>
     </nav-bar>
     <tab-control
@@ -69,9 +69,9 @@ export default {
       isFlexTabControl: false,
       bannerList: [],
       commdList: [],
-      goodstab: "underwear",
+      goodstab: "9.9",
       goods: {
-        underwear: {
+        9.9: {
           page: 1,
           list: [],
         },
@@ -119,7 +119,7 @@ export default {
     changeTab(e) {
       switch (e) {
         case 0:
-          this.goodstab = "underwear";
+          this.goodstab = "9.9";
           break;
         case 1:
           this.goodstab = "clothes";
@@ -170,7 +170,7 @@ export default {
     this.getbanner();
     this.getlist();
 
-    this.getgoods("underwear");
+    this.getgoods("9.9");
     this.getgoods("clothes");
     this.getgoods("featured");
   },

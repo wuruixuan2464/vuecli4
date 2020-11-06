@@ -24,11 +24,15 @@ export default {
       },
     },
   },
+  methods: {
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-
+#hy-swiper{
+  height: 300px;
+}
 .slide{
     height: 300px;
     img{

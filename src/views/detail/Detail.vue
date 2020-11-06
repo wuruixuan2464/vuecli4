@@ -1,94 +1,15 @@
 <template>
-  <div id="detail">
-    <div>{{$store.state.carlist}}</div>
+  <div id="detail" ref="detail" v-show="havedate">
+    <!-- <div>{{$store.state.carlist}}</div> -->
     <detail-nav-bar />
-    <scroll  ref="scroll">
-        <div class="scr-cont">
-           <detail-swiper :topImage="topImage"></detail-swiper>
-            <detail-info :detailinfo="dinfo"></detail-info>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <div>参数11111111111111111111111111111111111111111111</div>
-
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-          <p>1</p>
-        </div>
-       
+    <scroll ref="scroll">
+      <div class="scr-cont">
+        <detail-swiper :topImage="topImage"></detail-swiper>
+        <detail-info :detailinfo="dinfo"></detail-info>
+      </div>
     </scroll>
     <addshop @addCart="addToCart"></addshop>
+    <tips :msg="msg" :show="show"></tips>
   </div>
 </template>
 
@@ -99,6 +20,7 @@ import DetailInfo from "./childComps/detailInfo.vue";
 import addshop from "./childComps/addshop.vue";
 
 import Scroll from "components/common/scroll/Scroll";
+import Tips from "components/common/tips/tips";
 
 import { getdetail } from "network/detail.js";
 export default {
@@ -108,19 +30,27 @@ export default {
       itemId: null,
       topImage: [],
       dinfo: {},
+      show: false,
+      havedate: false,
+      msg: "加入购物车成功！",
     };
   },
   methods: {
-    addToCart(){
-      const shopinfo = {}
-      shopinfo.image = this.dinfo.pict_url
-      shopinfo.title = this.dinfo.title
-      shopinfo.pric = this.dinfo.zk_final_price
-      shopinfo.id = this.dinfo.num_iid
+    addToCart() {
+      const shopinfo = {};
+      let _this = this;
+      shopinfo.image = this.dinfo.pict_url;
+      shopinfo.title = this.dinfo.title;
+      shopinfo.pric = this.dinfo.zk_final_price;
+      shopinfo.id = this.dinfo.num_iid;
 
-      this.$store.dispatch('addCart' , shopinfo)
+      this.$store.dispatch("addCart", shopinfo);
+      this.show = true;
+      setTimeout(function () {
+        _this.show = false;
+      }, 1000);
       // this.$store.commit('addCart' , shopinfo)
-    }
+    },
   },
   components: {
     DetailNavBar,
@@ -128,18 +58,20 @@ export default {
     DetailInfo,
     Scroll,
     addshop,
+    Tips,
   },
- mounted() {
-    this.$nextTick(() => {
-      this.$refs.scroll && this.$refs.scroll.refresh();
+  mounted() {
+    if (this.topImage) {
+   this.$nextTick(() => {
+      this.havedate = true;
     });
-    console.log( this.$refs.scroll)
+    }
+    // this.$nextTick(() => {
+    //   this.havedate = true;
+    // });
+    let _this = this;
   },
-  updated() {
-       this.$nextTick(() => {
-      this.$refs.scroll && this.$refs.scroll.refresh();
-    });
-  },
+  updated() {},
   created() {
     // 拿到商品id
     this.itemId = this.$route.query.id;
@@ -158,6 +90,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+[v-cloak] {
+  display: none;
+}
 #detail {
   background-color: rgb(248, 248, 248);
   position: relative;

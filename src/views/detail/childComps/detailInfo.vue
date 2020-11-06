@@ -1,5 +1,5 @@
 <template>
-  <div class="dinfo" v-if="detailinfo">
+  <div class="dinfo" v-show="overinfo">
     <p class="price"><span>￥</span>{{ detailinfo.zk_final_price }}</p>
     <p class="price-rev"><span>价格￥</span> {{ detailinfo.reserve_price }}</p>
     <div class="title-de">
@@ -8,7 +8,7 @@
     <div class="by-info">
       <ul>
         <li>快递包邮</li>
-        <li>月销{{ detailinfo.volume}}</li>
+        <li>月销{{ detailinfo.volume }}</li>
         <li>{{ detailinfo.provcity }}</li>
       </ul>
     </div>
@@ -17,16 +17,22 @@
 
       <!-- <img v-for="(item,index) in detailinfo.small_images.string || detailinfo.pict_url" :key="index" :src= item alt=""> -->
     </div>
+    <div class="kk"></div>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      overinfo: false,
+    };
   },
+  created() {},
   mounted() {
-    console.log(this.detailinfo);
+    if (this.detailinfo) {
+      this.overinfo = true;
+    }
   },
   filters: {
     // filterinfo(e) {
@@ -103,5 +109,8 @@ export default {
     width: 100%;
     height: 100%;
   }
+}
+.kk {
+  height: 1000px;
 }
 </style>

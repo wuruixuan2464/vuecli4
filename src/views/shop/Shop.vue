@@ -1,41 +1,48 @@
 <template>
   <div>
-      购物车
-      {{$store.state.cont}}
-    <button @click="add()">++</button>
-    <button @click="sub()">--</button>
+    <nav-bar>
+      <template v-slot:left>
+        <div class="back" @click="back">
+         返回>
+            
+        </div>
+      </template>
+      <template v-slot:center>
+        <div class="shoptitle">购物车</div>
+        
+      </template>
+    </nav-bar>
+    <shop-items> </shop-items>
+   
   </div>
 </template>
 
 <script>
-  import axios from 'axios'
-  axios({
-    url:'http://123.207.32.32:8000/home/multidata'
-  }).then(res =>{
-    console.log(res);
-  })
-    axios({
-    url:'http://123.207.32.32:8000/home/data',
-    params:{
-      type:'pop',
-      page:1
-    }
-  }).then(res =>{
-    console.log(res);
-  })
+import shopItems from "./childComps/shopItems";
+import navBar from "components/common/navbar/navBar";
 export default {
-    name:'Shop',
-    methods: {
-      add(){
-        this.$store.commit('increment')
-      },
-      sub(){
-        this.$store.commit('decrement')
-      }
-    },
-}
+  name: "Shop",
+  created() {
+    console.log(this.$store.state.carlist);
+  },
+  methods: {
+     back(){
+        this.$router.back();
+    }
+  },
+  components: {
+    shopItems,
+    navBar,
+  },
+};
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.shoptitle {
+    
+}
+.back{
+    width: 60px;
+    height: 44px;
+}
 </style>
